@@ -12,12 +12,11 @@ gulp.task('clean', function(done) {
   }
   done();
 })
-
 const fileIncludeSetting = {
   prefix: '@@',
   basepath: '@file'
 };
-gulp.task('includeFiles', function() {
+gulp.task('html', function() {
   return gulp.src('./src/*.html')
     .pipe(fileInclude(fileIncludeSetting))
     .pipe(gulp.dest('./dist'))
@@ -27,7 +26,7 @@ gulp.task('sass',function() {
     .pipe(sass())
     .pipe(gulp.dest('./dist/css/'))
 })
-gulp.task('copyImages', function (){
+gulp.task('images', function (){
   return gulp.src('./src/img/**/*')
     .pipe(gulp.dest('./dist/img/'))
 })
@@ -35,7 +34,7 @@ const serverOptions = {
   livereloud: true,
   open:true
 }
-gulp.task('startServer', function() {
+gulp.task('server', function() {
   return gulp.src('./dist')
   .pipe(server(serverOptions));
 })
