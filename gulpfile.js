@@ -6,6 +6,8 @@ const clean = require('gulp-clean');
 const fs = require('fs');
 const sourceMaps = require('gulp-sourcemaps');
 // const groupMedia = require('gulp-group-css-media-queries');
+const plumber = require('gulp-plumber');
+const notify = require('gulp-notify');
 
 gulp.task('clean', function(done) {
   if (fs.existsSync('./dist/')){
@@ -18,13 +20,29 @@ const fileIncludeSetting = {
   prefix: '@@',
   basepath: '@file'
 };
+const plumberHtmlConfig = {
+  errorHandler: notify.onError({
+    title: 'HTML',
+    message: 'Error <%= error.message %>',
+    sound: false, 
+  })
+}
 gulp.task('html', function() {
   return gulp.src('./src/*.html')
+    .pipe(plumber(plumberHtmlConfig))
     .pipe(fileInclude(fileIncludeSetting))
     .pipe(gulp.dest('./dist'))
 });
+const plumberSassConfig = {
+  errorHandler: notify.onError({
+    title: 'Styles',
+    message: 'Error <%= error.message %>',
+    sound: false, 
+  })
+}
 gulp.task('sass',function() {
   return gulp.src('./src/scss/*.scss')
+    .pipe(plumber(plumberSassConfig))
     .pipe(sourceMaps.init())
     .pipe(sass())
     // .pipe(groupMedia())
