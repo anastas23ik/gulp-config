@@ -5,6 +5,7 @@ const server = require('gulp-server-livereload');
 const clean = require('gulp-clean');
 const fs = require('fs');
 const sourceMaps = require('gulp-sourcemaps');
+// const groupMedia = require('gulp-group-css-media-queries');
 
 gulp.task('clean', function(done) {
   if (fs.existsSync('./dist/')){
@@ -26,6 +27,7 @@ gulp.task('sass',function() {
   return gulp.src('./src/scss/*.scss')
     .pipe(sourceMaps.init())
     .pipe(sass())
+    // .pipe(groupMedia())
     .pipe(sourceMaps.write())
     .pipe(gulp.dest('./dist/css/'))
 })
@@ -35,13 +37,12 @@ gulp.task('images', function (){
 })
 const serverOptions = {
   livereloud: true,
-  open:true
+  open:false
 }
 gulp.task('server', function() {
   return gulp.src('./dist')
   .pipe(server(serverOptions));
 })
-
 gulp.task('watch', function() {
   gulp.watch('./src/scss/**/*.scss', gulp.parallel('sass'));
   gulp.watch('./src/**/*.html', gulp.parallel('html'));
