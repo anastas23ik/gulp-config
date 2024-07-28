@@ -4,6 +4,7 @@ const sass = require('gulp-sass')(require('sass'));
 const server = require('gulp-server-livereload');
 const clean = require('gulp-clean');
 const fs = require('fs');
+const sourceMaps = require('gulp-sourcemaps');
 
 gulp.task('clean', function(done) {
   if (fs.existsSync('./dist/')){
@@ -23,7 +24,9 @@ gulp.task('html', function() {
 });
 gulp.task('sass',function() {
   return gulp.src('./src/scss/*.scss')
+    .pipe(sourceMaps.init())
     .pipe(sass())
+    .pipe(sourceMaps.write())
     .pipe(gulp.dest('./dist/css/'))
 })
 gulp.task('images', function (){
